@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  frontend:
+    image: manveerjaura/tpp-frontend:latest   # or build from Dockerfile
+    container_name: tpp-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:5000
+
+    networks:
+      - tpp-network
+
+  backend:
+    image: manveerjaura/tpp-backend:latest
+    container_name: tpp-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/test  # load from .env in prod
+    depends_on:
+      - mongo
+    networks:
+      - tpp-network
+
+  mongo:
+    image: mongo:latest
+    container_name: tpp-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - tpp-network
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: tpp-mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+    depends_on:
+      - mongo
+    networks:
+      - tpp-network
+
+networks:
+  tpp-network:
+
+volumes:
+  mongo-data:
