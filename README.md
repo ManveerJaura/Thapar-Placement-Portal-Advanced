@@ -51,7 +51,7 @@ This project is fully **containerized with Docker** and can be deployed anywhere
 ## ⚡ Getting Started
 
 ### 1️⃣ Clone the repo
-```bash
+
 git clone https://github.com/ManveerJaura/Thapar-Placement-Portal-Advanced.git
 cd Thapar-Placement-Portal-Dockerized
 
